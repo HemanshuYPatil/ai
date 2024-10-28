@@ -78,3 +78,8 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+
+  .react-hot-reload {
+    z-index: 9999; 
+  }

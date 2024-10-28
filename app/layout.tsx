@@ -4,9 +4,11 @@ import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 
 import { ModalProvider } from "@/components/providers/modal-provider";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "react-hot-toast";
 import { Header } from "@/components/header";
 import { metadataConfig } from "@/lib/config/metadata";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -28,18 +30,30 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={font.className}>
-        <div className="background" />
-        <div className="fixed z-10 inset-0 overflow-y-scroll overflow-x-hidden">
-          <div className="min-h-full relative">
-            <Header />
-            {children}
-            <ModalProvider />
-            <Toaster />
+    <ClerkProvider appearance={{ baseTheme: dark }}>
+      <html lang="en" suppressHydrationWarning>
+        <body className={font.className}>
+          <div className="background" />
+          <div className="fixed z-10 inset-0 overflow-y-scroll overflow-x-hidden">
+            <div className="min-h-full relative">
+              <Header />
+              {children}
+              <ModalProvider />
+              <Toaster
+              
+                toastOptions={{
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                    zIndex: 9999, 
+                  },
+                }}
+              />
+            </div>
           </div>
-        </div>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
